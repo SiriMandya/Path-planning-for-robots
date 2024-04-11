@@ -1,0 +1,159 @@
+%video store capture time in seconds
+capturetime = 100; 
+ 
+% Path print to a file
+disp('Path information of the navigation of the robot will be stored in a text file');
+
+%text to speech
+                  caUserInput = char('Path information of the navigation of the robot will be stored in a text file'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+
+fid=fopen('PathPlanner.txt','a+'); %create a text file to store the path travelled information with all the permissions given to the file
+vinfo=imaqhwinfo('winvideo',2);
+vid=videoinput('winvideo',2,'UYVY_720x480'); %access the wireless camera
+%using an object
+ 
+disp('Accessing the wireless camera');
+%text to speech
+                  caUserInput = char('Accessing the wireless camera'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+ 
+set(vid,'FramesPerTrigger',80); %no. of frames that are to be stored in
+%the video
+set(vid,'FrameGrabInterval',10); %the interval among each frame for the
+%seconds mentioned
+set(vid,'ReturnedColorSpace','rgb'); %storage format is rgb
+ 
+start(vid);
+disp('Video store started');
+%text to speech
+                  caUserInput = char('Video store started'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+preview(vid);
+snapshot=getsnapshot(vid); %captured the snapshot that has to be processed
+disp('Captured snapshot');
+  %text to speech
+                  caUserInput = char('Captured snapshot'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+imshow(snapshot); %show the snapshot 
+imwrite(snapshot,'testpic.jpeg','jpeg'); %write the snapshot to a jpeg
+%file
+ 
+wait(vid,Inf); %store the video 
+ 
+[frames,time] = getdata(vid, get(vid,'FramesAvailable')); %store the no.
+%of frames available
+framerate = mean(1./diff(time)); %frame rate set 
+ 
+interval = get(vid,'FrameGrabInterval'); %intervals of each frame
+numframes = floor(capturetime * framerate / interval); %total no. of
+%frames
+ 
+set(vid,'LoggingMode','disk'); %set the storage location to the disk loc
+writerobj = VideoWriter('pathvideo.avi'); %avi format video
+%store , file name given along the no. of frames per sec and with the frame
+%rate
+ 
+set(vid,'DiskLogger',writerobj); %store the video object in the format of .mp4
+%in the disk 
+ 
+ 
+wait(vid,Inf);
+ 
+ 
+%Region of the obstacle
+disp('Region of the obstacle will be calculated');
+%text to speech
+                  caUserInput = char('Region of the obstacle will be calculated'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+region
+ 
+ wait(vid,Inf);
+ 
+pause(50);
+ 
+wait(vid,Inf);
+%Video store stop
+disp('Video stored successfully');
+%text to speech
+                  caUserInput = char('Video stored successfully'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+%close all the objects and delete them to restore the memory
+close(writerobj); %end of the video
+%fclose(s);
+%delete(s);
+fclose(fid); %close the file descriptor used for writing the path info into a file
+ 
+pause(25);
+   
+ writerobj = get(vid,'DiskLogger'); %store the video stored
+disp('Depth Map of the Snapshot');
+%text to speech
+                  caUserInput = char('Depth map of the captured snapshot will be shown in 3D space'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+%depth info file
+ 
+depthinfo        
+ 
+%pause execution for the mentioned seconds
+pause(50);
+ 
+%Shortest Path algorithm simulation
+disp('Shortest Path Simulation using Astar algorithm');
+%text to speech
+                  caUserInput = char('Shortest Path Algorithm Simulation using Astar algorithm'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+%Shortest path algorithm simulation
+ 
+AstarAlgo
+ 
+pause(50);
+ 
+%Video record view
+ 
+disp('Entire video record complete');
+%text to speech
+                  caUserInput = char('Entire video record complete'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
+ 
+disp('Video stored info');
+%text to speech
+                  caUserInput = char('Video stored info'); % Convert from cell to string.
+NET.addAssembly('System.Speech');
+obj = System.Speech.Synthesis.SpeechSynthesizer;
+obj.Volume = 100;
+Speak(obj, caUserInput);
